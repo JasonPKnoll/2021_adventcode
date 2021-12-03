@@ -1,6 +1,6 @@
-require_relative 'depths'
-require_relative 'positions'
-require_relative 'binary'
+require_relative './data/depths'
+require_relative './data/positions'
+require_relative './data/binary'
 
 def organize_binary
   results = {}
