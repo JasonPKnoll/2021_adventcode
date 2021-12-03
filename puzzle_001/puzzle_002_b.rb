@@ -11,6 +11,33 @@ def find_direction
   puts "multiply: #{multiply}"
 end
 
+def move_submarine
+
+  horizontal_position = 0
+  depth = 0
+  aim = 0
+
+  positions_array.each do |position|
+    direction = position.split(": ")[0]
+    amount = position.split(": ")[1].to_i
+    if direction == 'forward'
+      horizontal_position += amount
+      depth += (amount * aim)
+    elsif direction == 'down'
+      aim += amount
+    else
+      aim -= amount
+    end
+  end
+
+  multiply = horizontal_position * depth
+
+  puts "horizontal_position: #{horizontal_position}"
+  puts "depth: #{depth}"
+  puts "aim: #{aim}"
+  puts "multiply: #{multiply}"
+end
+
 def find_increases(depths)
   count = 0
   last_depth = nil
@@ -56,4 +83,4 @@ def group_depths(depths)
   return grouped
 end
 
-puts find_direction
+puts move_submarine
