@@ -6,6 +6,7 @@ def organize_binary
   results = {}
 
   total_positions = binary.first.length
+
   total_positions.times do
     results[:"pos_#{total_positions}_0"] = 0
     results[:"pos_#{total_positions}_1"] = 0
@@ -31,7 +32,7 @@ def organize_binary
   return results
 end
 
-def find_gamma_and_epsilon
+def find_power_consumption
   gamma = ''
   epsilon = ''
 
@@ -55,8 +56,87 @@ def find_gamma_and_epsilon
   power = gamma.to_i(2)*epsilon.to_i(2)
 
   puts "gamma: #{gamma} || #{gamma.to_i(2)}"
-  puts "epsilon: #{epsilon}|| #{epsilon.to_i(2)}"
+  puts "epsilon: #{epsilon} || #{epsilon.to_i(2)}"
   puts "Submarine Power Consumption = #{power}"
+end
+
+def count_binary(binary, results, bit_position)
+  total = binary.count
+  results[:"pos_#{bit_position}_0"] = 0
+  results[:"pos_#{bit_position}_1"] = 0
+
+  binary.each do |number|
+    if number[bit_position-1] == '0'
+      results[:"pos_#{bit_position}_0"] += 1
+    else
+      results[:"pos_#{bit_position}_1"] += 1
+    end
+
+  end
+  return results
+end
+
+def oxygen_generator_rating
+  binary_values = organize_binary
+  oxygen_hash = {}
+  oxygen = binary
+  bit_position = 1
+
+  until oxygen.count == 1 do
+    count_binary(oxygen, oxygen_hash, bit_position)
+    pos_0 = oxygen_hash[:"pos_#{bit_position}_0"]
+    pos_1 = oxygen_hash[:"pos_#{bit_position}_1"]
+    if pos_1 >= pos_0
+      oxygen.select! do |value|
+        value[bit_position-1] == '1'
+      end
+    elsif pos_0 > pos_1
+      oxygen.select! do |value|
+        value[bit_position-1] == '0'
+      end
+    end
+
+    bit_position += 1
+  end # end of UNTIL LOOP
+  puts "oxygen = #{oxygen.first} || #{oxygen.first.to_i(2)}"
+  return oxygen.first
+end
+
+def co2_scrubber_rating
+  binary_values = organize_binary
+  co2_hash = {}
+  co2 = binary
+
+  bit_position = 1
+  pos_0 = binary_values[:"pos_#{bit_position}_0"]
+  pos_1 = binary_values[:"pos_#{bit_position}_1"]
+
+  until co2.count == 1 do
+    count_binary(co2, co2_hash, bit_position)
+    pos_0 = co2_hash[:"pos_#{bit_position}_0"]
+    pos_1 = co2_hash[:"pos_#{bit_position}_1"]
+
+    if pos_1 < pos_0
+      co2.select! do |value|
+        value[bit_position-1] == '1'
+      end
+    elsif pos_0 <= pos_1
+      co2.select! do |value|
+        value[bit_position-1] == '0'
+      end
+    end
+
+    bit_position += 1
+  end # end of UNTIL LOOP
+
+  puts "co2 = #{co2.first} || #{co2.first.to_i(2)}"
+  return co2.first
+end
+
+def get_life_support_rating
+  co2 = co2_scrubber_rating
+  oxygen = oxygen_generator_rating
+  puts "Life Support Rating = #{co2.to_i(2)*oxygen.to_i(2)}"
 end
 
 
@@ -142,5 +222,6 @@ def group_depths(depths)
   return grouped
 end
 
-puts organize_binary
-puts find_gamma_and_epsilon
+puts oxygen_generator_rating
+puts co2_scrubber_rating
+puts get_life_support_rating
