@@ -77,7 +77,6 @@ def count_binary(binary, results, bit_position)
 end
 
 def oxygen_generator_rating
-  binary_values = organize_binary
   oxygen_hash = {}
   oxygen = binary
   bit_position = 1
@@ -103,13 +102,9 @@ def oxygen_generator_rating
 end
 
 def co2_scrubber_rating
-  binary_values = organize_binary
   co2_hash = {}
   co2 = binary
-
   bit_position = 1
-  pos_0 = binary_values[:"pos_#{bit_position}_0"]
-  pos_1 = binary_values[:"pos_#{bit_position}_1"]
 
   until co2.count == 1 do
     count_binary(co2, co2_hash, bit_position)
