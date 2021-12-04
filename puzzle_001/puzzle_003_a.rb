@@ -151,9 +151,9 @@ def move_submarine
   depth = 0
   aim = 0
 
-  positions_array.each do |position|
-    direction = position.split(": ")[0]
-    amount = position.split(": ")[1].to_i
+  File.open(ARGV[0]).each do |line|
+    direction = line.split[0]
+    amount = line.split[1].to_i
     if direction == 'forward'
       horizontal_position += amount
       depth += (amount * aim)
@@ -171,6 +171,8 @@ def move_submarine
   puts "aim: #{aim}"
   puts "multiply: #{multiply}"
 end
+
+puts move_submarine
 
 def find_increases(depths)
   count = 0
