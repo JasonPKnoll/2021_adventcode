@@ -4,7 +4,7 @@ Here are my solutions for the 2021 Advent Of Code challenge. Below is an example
 
 ### Day 4
 #### Run With Test Data
-` ruby puzzles/day4.rb data/test/day4_test.txt `
+` ruby puzzles/day4.rb data/test/day4.txt `
 #### Run With Puzzle Input
 ` ruby puzzles/day4.rb data/input/day4.txt `
 ##### Output
