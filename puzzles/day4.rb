@@ -1,4 +1,3 @@
-require 'colorize'
 
 def create_bingo_cards
   bingo_calls = []
@@ -130,8 +129,6 @@ def check_bingo_win_conditions(card)
   end
   return winning_card
 end
-
-# p "#{bingo_cards[0][:r1_c1]} #{bingo_cards[0][:r1_c2]}"
 
 puts find_best_bingo_card
 puts find_worst_bingo_card

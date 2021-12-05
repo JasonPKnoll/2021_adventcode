@@ -1,6 +1,9 @@
-require_relative './data/depths'
-require_relative './data/positions'
-require_relative './data/binary'
+
+def binary
+  binary = []
+  File.open(ARGV[0]).each {|line| binary << line.to_s.gsub("\n", "")}
+  return binary
+end
 
 def organize_binary
   results = {}
@@ -134,91 +137,4 @@ def get_life_support_rating
   puts "Life Support Rating = #{co2.to_i(2)*oxygen.to_i(2)}"
 end
 
-
-def find_direction
-  horizontal_position = positions[:forward]
-  depth = positions[:down] - positions[:up]
-  multiply = horizontal_position * depth
-
-  puts "horizontal_position: #{horizontal_position}"
-  puts "depth: #{depth}"
-  puts "multiply: #{multiply}"
-end
-
-def move_submarine
-
-  horizontal_position = 0
-  depth = 0
-  aim = 0
-
-  File.open(ARGV[0]).each do |line|
-    direction = line.split[0]
-    amount = line.split[1].to_i
-    if direction == 'forward'
-      horizontal_position += amount
-      depth += (amount * aim)
-    elsif direction == 'down'
-      aim += amount
-    else
-      aim -= amount
-    end
-  end
-
-  multiply = horizontal_position * depth
-
-  puts "horizontal_position: #{horizontal_position}"
-  puts "depth: #{depth}"
-  puts "aim: #{aim}"
-  puts "multiply: #{multiply}"
-end
-
-puts move_submarine
-
-def find_increases(depths)
-  count = 0
-  last_depth = nil
-
-  depths.each do |depth|
-    if last_depth == nil
-      last_depth = depth
-    elsif depth > last_depth
-      count += 1
-      last_depth = depth
-    else
-      last_depth = depth
-    end
-  end
-
-  return count
-end
-
-def group_depths(depths)
-  grouped = []
-  rolling_sum = []
-  passes = 0
-  depths.each do |depth|
-
-    if rolling_sum.count == 2 && passes == 0
-      rolling_sum << depth
-      total = rolling_sum.sum
-      grouped << total
-      passes += 1
-
-    elsif rolling_sum.count < 3
-      rolling_sum << depth
-
-    else
-      rolling_sum << depth
-      rolling_sum.shift(1)
-      total = rolling_sum.sum
-      grouped << total
-
-    end
-  end
-
-  return grouped
-end
-
-puts oxygen_generator_rating
-puts co2_scrubber_rating
 puts get_life_support_rating
