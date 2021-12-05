@@ -6,7 +6,7 @@ Here are my solutions for the 2021 Advent Of Code challenge. Below is an example
 #### Run With Test Data
 ` ruby puzzles/day4.rb data/test/day4_test.txt `
 #### Run With Puzzle Input
-` ruby puzzles/day4.rb data/live/day4.txt `
+` ruby puzzles/day4.rb data/input/day4.txt `
 ##### Output
 ```
 Best Card Score: 50008
