@@ -36,36 +36,47 @@ class Entry
     x = [data[0], data[1]]
     y = [data[2], data[3]]
     if x[0] - y[0] != 0 && x[1] - y[1] == 0
-      sorted = [x[0], y[0]].sort
-      diff = (sorted[1] - sorted[0]) + 1
-      count = 0
-      rows = []
-      diff.times do
-        rows << sorted[0] + count
-        count += 1
-      end
-      rows.each do |point|
+      array = get_points(x[0], y[0])
+      array.each do |point|
         points << [point, x[1]]
       end
     elsif x[1] - y[1] != 0 && x[0] - y[0] == 0
-      sorted = [x[1], y[1]].sort
-      diff = (sorted[1] - sorted[0]) + 1
-      count = 0
-      columns = []
-      diff.times do
-        columns << sorted[0] + count
-        count += 1
-      end
-      columns.each do |point|
+      array = get_points(x[1], y[1])
+      array.each do |point|
         points << [x[0], point]
       end
-    # else
-    #   points << x
-    #   points << y
+    elsif (x[0] - y[0]).abs - (x[1] - y[1]).abs == 0
+      sorted = [[x[0], x[1]], [y[0], y[1]]].sort
+      diff = (sorted[1][0] - sorted[0][0]).abs + 1
+      count = 0
+      if sorted[0][1] < sorted[1][1]
+        diff.times do
+          points << [sorted[0][0] + count, sorted[0][1] + count]
+          count += 1
+        end
+      else
+        diff.times do
+          points << [sorted[0][0] + count, sorted[0][1] - count]
+          count += 1
+        end
+      end
     end
 
     return points
   end
+
+  def get_points(p1, p2)
+    sorted = [p1, p2].sort
+    diff = (sorted[1] - sorted[0]) + 1
+    count = 0
+    points = []
+    diff.times do
+      points << sorted[0] + count
+      count += 1
+    end
+    return points
+  end
+
 end
 
 def plot_points
@@ -75,7 +86,6 @@ def plot_points
   else
     board = get_board(1000)
   end
-  # entries.select! {|entry| entry.points.count != 2}
   entries.each do |entry|
     entry.points.each do |point|
       board[:"r#{point[0]}_c#{point[1]}"] += 1
@@ -89,21 +99,6 @@ def plot_points
     end
   end
   puts "Total Points: #{overlap}"
-  # draw(board)
 end
-
-# def draw(board)
-#   number = board.count/10
-#   (0..number).each do |column|
-#     (0..number).each do |row|
-#       if board[:"r#{row}_c#{column}"] == 0
-#         print "*"
-#       else
-#         print board[:"r#{row}_c#{column}"]
-#       end
-#     end
-#     puts
-#   end
-# end
 
 puts plot_points
