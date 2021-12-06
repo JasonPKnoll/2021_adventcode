@@ -7,22 +7,27 @@ def get_data
 end
 
 def create_fish(days)
-  all_fish = get_data
+  sorted_fish = {}
+  (0..8).each {|num| sorted_fish[:"f_#{num}"] = 0}
+  get_data.each {|fish| sorted_fish[:"f_#{fish}"] += 1}
 
   days.times do
-    all_fish = all_fish.map do |fish|
-      fish -= 1
-      if fish == -1
-        fish = 6
-        all_fish << 9
+    new_fish = {}
+    (0..8).each {|num| new_fish[:"f_#{num}"] = 0}
+    sorted_fish = sorted_fish.each do |type, amount|
+      pod = type.to_s.gsub("f_", "").to_i
+      if pod == 0
+        new_fish[:f_8] += amount
+        new_fish[:f_6] += amount
+      else
+        new_fish[:"f_#{pod-1}"] += amount
       end
-      fish
     end
+    sorted_fish = new_fish
   end
-
-  puts "There would be #{all_fish.count} fish after #{days}."
+  puts "There would be #{sorted_fish.values.sum} fish after #{days} days."
 end
 
-# create_fish(18)
-# create_fish(80)
+create_fish(18)
+create_fish(80)
 create_fish(256)
