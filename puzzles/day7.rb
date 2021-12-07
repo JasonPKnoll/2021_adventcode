@@ -11,7 +11,7 @@ def find_horizontal
   crabs = get_data
   (0..crabs.max).each do |num|
     fuel = crabs.map do |crab|
-      (crab - num).abs
+      ((crab - num).abs*((crab - num).abs+1))/2
     end
     all_fuel[:"#{num}"] = [fuel.sum, "#{num}"]
   end
