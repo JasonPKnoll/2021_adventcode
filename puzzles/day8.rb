@@ -10,32 +10,80 @@ end
 
 def find_digits
   data = get_data
-  numbers_hash = {}
-  (0..9).each {|num| numbers_hash[:"#{num}"] = 0}
+  all_numbers = []
+
   data.each do |set|
+    ones = []
+    fours = []
+    sevens = []
+
     set[1].each do |word|
-      num = find_by_length(word.length)
-      if num != nil
-        numbers_hash[:"#{num}"] += 1
+      if word.length == 2
+        word.split("").each do |letter|
+          ones << letter
+        end
+      elsif word.length == 4
+        word.split("").each do |letter|
+          fours << letter
+        end
+      elsif word.length == 3
+        word.split("").each do |letter|
+          sevens << letter
+        end
+      else
+      end
+
+      set[0].each do |word|
+        if word.length == 2
+          word.split("").each do |letter|
+            ones << letter
+          end
+        elsif word.length == 4
+          word.split("").each do |letter|
+            fours << letter
+          end
+        elsif word.length == 3
+          word.split("").each do |letter|
+            sevens << letter
+          end
+        else
+        end
       end
     end
-  end
-  instances = numbers_hash.values.sum
-  puts "#{instances} instances of 1,4,7, or 8"
-end
 
-def find_by_length(length)
-  if length == 2
-    return 1
-  elsif length == 4
-    return 4
-  elsif length == 3
-    return 7
-  elsif length == 7
-    return 8
-  else
-    return nil
+    number = []
+    set[1].each do |word|
+
+      if word.length == 2
+          number << 1
+      elsif word.length == 3
+          number << 7
+      elsif word.length == 4
+        number << 4
+      elsif word.length == 5
+        if (word.split("") - sevens.uniq).length == 2
+          number << 3
+        elsif (word.split("") - fours.uniq).length == 2
+          number << 5
+        else
+          number << 2
+        end
+      elsif word.length == 6
+        if (word.split("") - fours.uniq).length == 2
+          number << 9
+        elsif (word.split("") - sevens.uniq).length == 4
+          number << 6
+        else
+          number << 0
+        end
+      else
+        number << 8
+      end
+    end
+    all_numbers << number.join(',').gsub(",", "").to_i
   end
+  instances = all_numbers.sum
+  puts "#{instances} "
 end
 
 puts find_digits
