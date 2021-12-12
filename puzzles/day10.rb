@@ -48,7 +48,33 @@ def find_char
     end
   end
   points = tally_points(bad_values)
+  autocomplete_points = autocomplete(incomplete)
   puts "total points for syntax errors = #{points.sum}"
+  puts "total points for autocomplete lines = #{autocomplete_points}"
+end
+
+def autocomplete(incomplete)
+  score = []
+  incomplete.map! do |line|
+    line.reverse().map! do |value|
+      index = ["(","[","{","<"].index(value[0])
+      value = [1,2,3,4][index]
+    end
+  end
+  incomplete.map do |line|
+    total = 0
+    increment = 0
+    line.count.times do
+      total = total * 5
+      total += line[increment]
+      increment += 1
+    end
+    if total > 0
+      score << total
+    end
+  end
+  middle_point = score.count/2
+  return score.sort[middle_point]
 end
 
 def tally_points(bad_values)
