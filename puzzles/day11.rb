@@ -16,23 +16,33 @@ def get_data
   return octopus_grid
 end
 
-def simulate_steps(steps)
+def simulate_steps
   total_flashes = 0
   grid = get_data
-  steps.times do
+  all_sync = 0
+  steps = 0
+  until all_sync == 1
     increase(grid)
     flash = flashing(grid)
     grid = flash[0]
     total_flashes += flash[1]
     reset_flashing(grid)
+    if flash[1] == grid.count
+      all_sync = 1
+    end
+    steps += 1
   end
-  puts "After #{steps} steps, the octopuses flashed a total of #{total_flashes} times."
+
+  puts "After #{steps} steps, the octopuses all flashed at the same time."
 end
 
 def increase(grid)
   grid.map do |position, octopus|
     octopus[0] += 1
   end
+end
+
+def check_sync(grid)
 end
 
 def flashing(grid)
@@ -103,4 +113,4 @@ def get_nearby_keys(position)
   return nearby_keys
 end
 
-puts simulate_steps(100)
+puts simulate_steps
