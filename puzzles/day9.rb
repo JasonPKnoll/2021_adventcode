@@ -12,7 +12,7 @@ def get_data
   return array
 end
 
-def something
+def intial_setup
   data = get_data
   low_points = []
   iterations = 0
@@ -70,7 +70,6 @@ def something
           end
 
           if nearest_spots.compact.any?{|ticker| ticker > 0}
-            # nearest_spots.select!{|ticker| ticker != 0}
             value[2] = nearest_spots.compact[0]
           else
             value[2] = fill_ticker
@@ -89,7 +88,6 @@ def something
           low_points << value[0]
         end
 
-        #################################
         nearest_spots = []
         if data[iterations][position][0] != 9
           nearest_spots << data[iterations-1][:"#{position.to_s.to_i - 1}"]
@@ -123,7 +121,6 @@ def something
             end
           end
 
-          ##################!!!!!!!!!!!!!!!!!
           check_same_basin = nearest_spots.uniq.compact - [0]
           if check_same_basin.count > 1
             iterate = 0
@@ -134,7 +131,6 @@ def something
           end
 
           if nearest_spots.compact.any?{|ticker| ticker > 0}
-            # nearest_spots.select!{|ticker| ticker != 0}
             value[2] = nearest_spots.compact[0]
           else
             value[2] = fill_ticker
@@ -142,7 +138,6 @@ def something
           end
         end
 
-      # MIDDLE ROWS
       else
         values = []
         values << data[iterations-1][position]
@@ -234,4 +229,4 @@ end
 
 
 
-puts something
+puts intial_setup

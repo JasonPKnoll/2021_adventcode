@@ -126,7 +126,7 @@ def set_queue(line_check)
     end
 
     if value[2] == "waiting"
-      #WORKING#
+
       if next_position[2] == "delete"
         forward_check_position = position+1
         next_position = line_check[forward_check_position]
