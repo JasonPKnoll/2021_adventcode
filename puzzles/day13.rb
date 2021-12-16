@@ -18,7 +18,7 @@ def plot_paper
   paper = data[0]
   folds = data[1]
   fold_count = 0
-  first_pass = 0
+  first_pass = nil
   folds.each do |fold|
     if fold[0] == "y"
       foldable_keys = paper.keys.select {|key| key.to_s.split("_")[1].to_i >= fold[1].to_i}
@@ -26,7 +26,6 @@ def plot_paper
         diff = coordinates.to_s.split("_")[1].to_i-fold[1].to_i
         paper[:"#{coordinates.to_s.split("_")[0]}_#{fold[1].to_i-diff}"] = true
         paper.delete(coordinates)
-        # paper[coordinates] = false
       end
     else
       foldable_keys = paper.keys.select {|key| key.to_s.split("_")[0].to_i >= fold[1].to_i}
