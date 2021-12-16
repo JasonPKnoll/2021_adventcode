@@ -18,7 +18,7 @@ def plot_paper
   paper = data[0]
   folds = data[1]
   fold_count = 0
-  first_pass = nil
+  first_pass = 
   folds.each do |fold|
     if fold[0] == "y"
       foldable_keys = paper.keys.select {|key| key.to_s.split("_")[1].to_i >= fold[1].to_i}
