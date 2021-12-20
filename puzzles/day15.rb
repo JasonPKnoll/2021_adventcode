@@ -2,13 +2,29 @@ def get_data
   grid = {}
   row = 0
   column = 0
-  File.open(ARGV[0]).map do |line|
-    line.gsub("\n", "").split("").each do |number|
-      grid[:"#{row}_#{column}"] = [number, nil]
-      column += 1
+  add = 0
+  add_down = 0
+
+  5.times do
+    File.open(ARGV[0]).map do |line|
+
+      5.times do
+        line.gsub("\n", "").split("").each do |number|
+          if number.to_i+add+add_down >= 10
+            grid[:"#{row}_#{column}"] = [(number.to_i+add+add_down+1)%10, nil]
+          else
+            grid[:"#{row}_#{column}"] = [number.to_i+add+add_down, nil]
+          end
+          column += 1
+        end
+        add += 1
+      end
+      row += 1
+      column = 0
+      add = 0
     end
-    row += 1
-    column = 0
+    add_down += 1
+    add = 0
   end
   grid
 end
